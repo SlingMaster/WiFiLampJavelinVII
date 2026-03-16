@@ -3,17 +3,13 @@
 //           БЕГУЩАЯ СТРОКА
 // =====================================
 void text_running() {
-
-  if (selectedSettings) {
-    setModeSettings(1U + random8(100U), 50U + random8(100U));
-  }
-
+  IsRandomMode();
   while (!fillString(TextTicker, CHSV(modes[MODE_AMOUNT - 1].Scale * 2.55, 255U, 255U), true) && currentMode == MODE_AMOUNT - 1) {
     parseUDP();
     delay (5);
     HTTP.handleClient();
 #ifdef ESP_USE_BUTTON
-    // buttonTick();
+//    buttonTick();
 #endif
 #ifdef JAVELIN_VII
     encoderTick();
@@ -28,13 +24,7 @@ void text_running() {
 #define FADE_OUT_SPEED        (70U)                         // скорость затухания
 void sparklesRoutine() {
   if (loadingFlag) {
-
-    if (selectedSettings) {
-      setModeSettings(4U + random8(97U), 99U + random8(125U));
-    }
-
-
-    loadingFlag = false;
+    IsRandomMode();
     for (uint16_t i = 0; i < NUM_LEDS; i++)
       if (random8(3U))
         leds[i].nscale8(random8());
@@ -92,9 +82,7 @@ void fadePixel(uint8_t i, uint8_t j, uint8_t step)          // новый фей
 // 50 чуть больше половины будет долетать. для цветных вариантов жидкости так более эффектно
 
 void fire2012WithPalette() {
-  if (selectedSettings) {
-    setModeSettings(random8(7U) ? 46U + random8(26U) : 100U, 195U + random8(40U));
-  }
+  IsRandomMode();
 
   //    bool fire_water = modes[currentMode].Scale <= 50;
   //    uint8_t COOLINGNEW = fire_water ? modes[currentMode].Scale * 2  + 20 : (100 - modes[currentMode].Scale ) *  2 + 20 ;
@@ -172,10 +160,7 @@ static const uint8_t hueMask[8][16] PROGMEM = {
 // --------------------------------
 void fire() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(30U) ? 1U + random8(100U) : 100U, 200U + random8(35U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
     generateLine();
     pcnt = 0;
@@ -363,12 +348,7 @@ void rainbowRoutine() {
 //  uint8_t divider;
 //  if (loadingFlag) {
 //
-//    if (selectedSettings) {
-//      // scale | speed
-//      setModeSettings(1U + random8(100U), 170U + random8(62U));
-//    }
-//
-//    loadingFlag = false;
+//    IsRandomMode();
 //    divider = floor((modes[currentMode].Scale - 1) / 12); // маштаб задает смену палитры
 //    FastLED.clear();
 //  }
@@ -391,9 +371,7 @@ void pulse8() {
 
 // ======================================
 void pulseRoutine( uint8_t PMode) {
-  if (selectedSettings) {
-    setModeSettings(1U + random8(100U), 170U + random8(62U));
-  }
+  IsRandomMode();
   CRGB _pulse_color;
 
   dimAll(248U);
@@ -479,11 +457,7 @@ void pulseRoutine( uint8_t PMode) {
 
 void poolRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(47U + random8(28U), 201U + random8(38U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     hue = modes[currentMode].Scale * 2.55;
     fillAll(CHSV(hue, 255U, 255U));
     deltaHue = 0U;
@@ -526,11 +500,7 @@ void poolRoutine() {
 #define DELAY_MULTIPLIER (20U) //при задержке между кадрами примерно в 50 мс с этим множителем получится 1 с на единицу бегунка Скорость
 void colorsRoutine2() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(1U + random8(255U), 210U + random8(46U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 255U - modes[currentMode].Speed + 1U;
     step = deltaValue; // чтообы при старте эффекта сразу покрасить лампу (для бугунка Масштаб от 246 до 9)
     deltaHue = 1U;     // чтообы при старте эффекта сразу покрасить лампу (для бегунка Масштаб от 10 до 245)
@@ -581,11 +551,7 @@ void colorsRoutine2() {
 // =====================================
 void colorRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(1U + random8(100U), 96U + random8(160));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     //FastLED.clear(); нафига тут это было?!
 
     //for (int16_t i = 0U; i < NUM_LEDS; i++)
@@ -650,12 +616,7 @@ void stormRoutine2() {// (bool isColored) { // сворачиваем 2 эффе
 //--------------------------------------
 void matrixRoutine() {
   if (loadingFlag) {
-
-    if (selectedSettings) {
-      setModeSettings(1U + random8(90U), 165U + random8(66U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
   }
   for (uint8_t x = 0U; x < WIDTH; x++) {
@@ -912,15 +873,9 @@ void butterflysRoutine(bool isColored) {
 //#define LIGHTERS_AM           (100U)  // для экономии памяти берём trackingOBJECT_MAX_COUNT
 void lightersRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(14U + random8(43U), 100U + random8(81U));
-    }
-
-    loadingFlag = false;
-    //randomSeed(millis());
+    IsRandomMode();
     if (modes[currentMode].Scale > trackingOBJECT_MAX_COUNT) modes[currentMode].Scale = trackingOBJECT_MAX_COUNT;
-    for (uint8_t i = 0U; i < trackingOBJECT_MAX_COUNT; i++)
-    {
+    for (uint8_t i = 0U; i < trackingOBJECT_MAX_COUNT; i++) {
       trackingObjectPosX[i] = random(0, WIDTH * 10);
       trackingObjectPosY[i] = random(0, HEIGHT * 10);
       trackingObjectSpeedX[i] = random(-10, 10);
@@ -931,8 +886,7 @@ void lightersRoutine() {
   }
   FastLED.clear();
   if (++step > 20U) step = 0U;
-  for (uint8_t i = 0U; i < modes[currentMode].Scale; i++)
-  {
+  for (uint8_t i = 0U; i < modes[currentMode].Scale; i++) {
     if (step == 0U)                                  // меняем скорость каждые 255 отрисовок
     {
       trackingObjectSpeedX[i] += random(-3, 4);
@@ -974,11 +928,7 @@ int8_t vector[BALLS_AMOUNT][2U];
 CRGB ballColors[BALLS_AMOUNT];
 void ballsRoutine() {
   if (loadingFlag)  {
-    if (selectedSettings) {
-      setModeSettings(1U + random8(100U) , 190U + random8(31U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
 
     for (uint8_t j = 0U; j < BALLS_AMOUNT; j++) {
       int8_t sign;
@@ -1040,9 +990,7 @@ void ballsRoutine() {
 //
 //void lightBallsRoutine() {
 
-//  if (selectedSettings) {
-//    setModeSettings(1U + random8(100U) , 230U + random8(16U));
-//  }
+//  IsRandomMode();
 
 //
 //  // Apply some blurring to whatever's already on the matrix
@@ -1076,10 +1024,7 @@ void ballsRoutine() {
 #define BORDERLAND   2              // две дополнительные единицы бегунка Масштаб на границе вертикального и горизонтального варианта эффекта (с каждой стороны границы) будут для света всеми светодиодами в полную силу
 void whiteColorStripeRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(11U + random8(83U), 1U + random8(255U / WIDTH + 1U) * WIDTH);
-    }
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
 
     uint8_t thisSize = HEIGHT;
@@ -1365,9 +1310,7 @@ void MultipleStream2() { // 3 comets
 //            Пapящий oгoнь
 // =====================================
 void MultipleStream3() {
-  if (selectedSettings) {
-    setModeSettings(1U + random8(26U), 180U + random8(45U));
-  }
+  IsRandomMode();
   blurScreen(20); // без размытия как-то пиксельно, по-моему...
   //dimAll(160); // < -- затухание эффекта для последующего кадров
   dimAll(255U - modes[currentMode].Scale * 2);
@@ -1389,9 +1332,7 @@ void MultipleStream3() {
 //            Bepxoвoй oгoнь
 // =====================================
 void MultipleStream5() { // Fractorial Fire
-  if (selectedSettings) {
-    setModeSettings(1U + random8(26U), 180U + random8(45U));
-  }
+  IsRandomMode();
 
   blurScreen(20); // без размытия как-то пиксельно, по-моему...
   //dimAll(140); // < -- затухание эффекта для последующего кадрв
@@ -1416,11 +1357,8 @@ void MultipleStream5() { // Fractorial Fire
 //            Paдyжный змeй
 // =====================================
 void MultipleStream8() {            // Windows
-  if (selectedSettings) {
-    setModeSettings(random8(2U) ? 1U : 2U + random8(99U), 155U + random8(76U));
-  }
   if (loadingFlag) {
-    loadingFlag = false;
+    IsRandomMode();
     if (modes[currentMode].Scale > 1U) {
       hue = (modes[currentMode].Scale - 2U) * 2.6;
     } else {
@@ -1457,9 +1395,7 @@ void MultipleStream8() {            // Windows
 // Follow the Rainbow Comet by Palpalych
 //    Effect for GyverLamp 02/03/2020
 void RainbowCometRoutine() {
-  if (selectedSettings) {
-    setModeSettings(10U + random8(91U), 185U + random8(51U));
-  }
+  IsRandomMode();
 
   dimAll(254U); // < -- затухание эффекта для последующего кадра
   CRGB _eNs_color = CHSV(millis() / modes[currentMode].Scale * 2, 255, 255);
@@ -1481,9 +1417,7 @@ void RainbowCometRoutine() {
 
 // Кометы белые и одноцветные
 void ColorCometRoutine() {      // <- ******* для оригинальной прошивки Gunner47 ******* (раскомментить/закоментить)
-  if (selectedSettings) {
-    setModeSettings(random8(20U) ? 1U + random8(99U) : 100U, 185U + random8(51U));
-  }
+  IsRandomMode();
 
   dimAll(254U); // < -- затухание эффекта для последующего кадра
   CRGB _eNs_color = CRGB::White;
@@ -1519,11 +1453,7 @@ void ColorCometRoutine() {      // <- ******* для оригинальной п
 float bballsVImpact0 = SQRT_VARIANT( -2 * bballsGRAVITY * bballsH0 );  // Impact velocity of the ball when it hits the ground if "dropped" from the top of the strip
 void BBallsRoutine() {
   if (loadingFlag)  {
-    if (selectedSettings) {
-      setModeSettings(26U + random8(32U), random8(3U) ? ((random8(4U) ? 127U : 0U) + 9U + random8(12U)) : (random8(4U) ? 255U : 127U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     //FastLED.clear();
     enlargedObjectNUM = (modes[currentMode].Scale - 1U) / 99.0 * (enlargedOBJECT_MAX_COUNT - 1U) + 1U;
     if (enlargedObjectNUM > enlargedOBJECT_MAX_COUNT) {
@@ -1709,11 +1639,7 @@ void spiroRoutine() {
 */
 void MetaBallsRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(8U) * 11U + 1U + random8(11U), 50U + random8(121U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
     speedfactor = modes[currentMode].Speed / 127.0;
   }
@@ -1787,12 +1713,7 @@ void MetaBallsRoutine() {
 void Sinusoid3Routine() {
   CRGB color;
   if (loadingFlag) {
-    if (selectedSettings) {
-      uint8_t tmp = random8(100U);
-      setModeSettings(tmp + 1U, 4U + random8(183U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = (modes[currentMode].Speed - 1U) % 9U;                    // количество режимов
     emitterX = WIDTH * 0.5;
     emitterY = HEIGHT * 0.5;
@@ -2137,9 +2058,7 @@ void fire2012WithPalette4in1() {
 //             © Shaitan
 // =====================================
 void RainRoutine() {
-  if (selectedSettings) {
-    setModeSettings(random8(10U) ? 2U + random8(99U) : 1U , 185U + random8(52U));
-  }
+  IsRandomMode();
 
   for (uint8_t x = 0U; x < WIDTH; x++) {
     // заполняем случайно верхнюю строку
@@ -2173,10 +2092,7 @@ void RainRoutine() {
 
 void PrismataRoutine() {
   if (loadingFlag) {
-    loadingFlag = false;
-    if (selectedSettings) {
-      setModeSettings(1U + random8(100U), 35U + random8(100U));
-    }
+    IsRandomMode();
     setCurrentPalette();
   }
   //  EVERY_N_MILLIS(33) { маловата задержочка
@@ -3316,11 +3232,7 @@ void stormyRain() {
 
 void twinklesRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(8U) * 11U + 2U + random8(9U) , 180U + random8(69U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
     hue = 0U;
     deltaValue = (modes[currentMode].Scale - 1U) % 11U + 1U;  // вероятность пикселя загореться от 1/1 до 1/11
@@ -3378,11 +3290,7 @@ PVector gravity = PVector(0, -0.0125);
 
 void bounceRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(9U) * 11U + 3U + random8(9U), random8(4U) ? 3U + random8(26U) : 255U);
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
     //hue2 = 255U - scale8(64U, myScale8(modes[currentMode].Scale * 2.55));
     //hue2 = 254U - ((modes[currentMode].Scale - 1U) % 11U) * 3;
@@ -3694,11 +3602,7 @@ void LeapersMove_leaper(uint8_t l) {
 void LeapersRoutine() {
   //unsigned num = map(scale, 0U, 255U, 6U, sizeof(boids) / sizeof(*boids));
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(8U) * 11U + 5U + random8(7U) , 185U + random8(56U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
     //FastLED.clear();
     //enlargedObjectNUM = (modes[currentMode].Scale - 1U) / 99.0 * (enlargedOBJECT_MAX_COUNT - 1U) + 1U;
@@ -3759,11 +3663,7 @@ void drawBlob(uint8_t l, CRGB color) { //раз круги нарисовать 
 void LavaLampRoutine() {
   //unsigned num = map(scale, 0U, 255U, 6U, sizeof(boids) / sizeof(*boids));
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(30U) ? (random8(3U) ? 2U + random8(98U) : 1U) : 100U, 50U + random8(196U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     enlargedObjectNUM = (WIDTH / 2) -  ((WIDTH - 1) & 0x01);
 
     uint8_t shift = random8(2);
@@ -3901,11 +3801,7 @@ void wu_pixel(uint32_t x, uint32_t y, CRGB * col) {      //awesome wu_pixel proc
 
 void DNARoutine() {
   if (loadingFlag)  {
-    if (selectedSettings) {
-      setModeSettings(1U + random8(100U), 1U + random8(200U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     step = map8(modes[currentMode].Speed, 10U, 60U);
     hue = modes[currentMode].Scale;
     deltaHue = hue > 50U;
@@ -3965,12 +3861,7 @@ void DNARoutine() {
 #define SNAKES_LENGTH (8U) // длина червяка от 2 до 15 (+ 1 пиксель голова/хвостик), ограничена размером переменной для хранения трактории тела червяка
 void snakesRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      uint8_t tmp = random8(8U);
-      setModeSettings(8U + tmp * tmp, 20U + random8(120U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     speedfactor = (float)modes[currentMode].Speed / 555.0f + 0.001f;
     enlargedObjectNUM = (modes[currentMode].Scale - 1U) / 99.0 * (enlargedOBJECT_MAX_COUNT - 1U) + 1U;
     if (enlargedObjectNUM > enlargedOBJECT_MAX_COUNT) enlargedObjectNUM = enlargedOBJECT_MAX_COUNT;
@@ -4421,11 +4312,7 @@ void popcornRestart_rocket(uint8_t r) {
 
 void popcornRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(9U) * 11U + 3U + random8(9U), 5U + random8(67U) * 2U + (random8(4U) ? 0U : 1U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     speedfactor = fmap((float)modes[currentMode].Speed, 1., 255., 0.25, 1.0);
     //speedfactor = (float)modes[currentMode].Speed / 127.0f + 0.001f;
 
@@ -4667,11 +4554,7 @@ void oscillatingRoutine() {
 #define SPARKLES_NUM  (WIDTH / 8U) // не более чем  enlargedOBJECT_MAX_COUNT (WIDTH * 2)
 void fire2020Routine2() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(1U + random8(100U), 195U + random8(40U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     if (modes[currentMode].Scale > 100U) modes[currentMode].Scale = 100U; // чтобы не было проблем при прошивке без очистки памяти
     deltaValue = modes[currentMode].Scale * 0.0899;// /100.0F * ((sizeof(palette_arr) /sizeof(TProgmemRGBPalette16 *))-0.01F));
     if (deltaValue == 3U || deltaValue == 4U) {
@@ -4817,11 +4700,7 @@ void attractRoutine() {
 
 void newMatrixRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(30U) ? (random8(40U) ? 2U + random8(99U) : 1U) : 100U, 12U + random8(68U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
 
     enlargedObjectNUM = map(modes[currentMode].Speed, 1, 255, 1, trackingOBJECT_MAX_COUNT);
@@ -4878,11 +4757,7 @@ void newMatrixRoutine() {
 
 void smokeballsRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(9U) * 11U + 3U + random8(9U), 1U + random8(255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
 
     enlargedObjectNUM = enlargedObjectNUM = (modes[currentMode].Scale - 1U) % 11U + 1U;
@@ -4964,11 +4839,7 @@ void nexusReset(uint8_t i) {
 
 void nexusRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(2U) ? 11U + random8(15U) : 26U + random8(55U), 1U + random8(161U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     speedfactor = fmap(modes[currentMode].Speed, 1, 255, 0.1, .33);//(float)modes[currentMode].Speed / 555.0f + 0.001f;
 
     enlargedObjectNUM = (modes[currentMode].Scale - 1U) / 99.0 * (enlargedOBJECT_MAX_COUNT - 1U) + 1U;
@@ -5079,9 +4950,7 @@ void pacifica_deepen_colors(CRGB * leds) {
 }
 
 void pacificRoutine() {
-  if (selectedSettings) {
-    setModeSettings(100U, 1U + random8(255U));
-  }
+  IsRandomMode();
 
   // Increment the four "color index start" counters, one for each wave layer.
   // Each is incremented at a different speed, and the speeds vary over time.
@@ -5165,9 +5034,7 @@ void starfield2Emit(uint8_t i) {
 
 void starfield2Routine() {
   if (loadingFlag)  {
-    if (selectedSettings) {
-      setModeSettings(25U + random8(76U), 185U + random8(30U) * 2U + (random8(6U) ? 0U : 1U));
-    }
+    IsRandomMode();
 
     loadingFlag = false;
     enlargedObjectNUM = (modes[currentMode].Scale - 1U) / 99.0 * (trackingOBJECT_MAX_COUNT - 1U) + 1U;
@@ -5231,11 +5098,7 @@ void fairyEmit(uint8_t i) {   //particlesEmit(Particle_Abstract *particle, Parti
 
 void fairyRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(14U + random8(87U), 190U + random8(40U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     //speedfactor = (float)modes[currentMode].Speed / 510.0f + 0.001f;
 
     deltaValue = 10; // количество зарождающихся частиц за 1 цикл //perCycle = 1;
@@ -5354,11 +5217,7 @@ void fairyRoutine() {
 
 void sandRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(1U + random8(100U) , 140U + random8(100U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     pcnt = 0U;// = HEIGHT;
   }
 
@@ -5511,11 +5370,7 @@ unsigned long polarTimer;
 
 void polarRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(3U) ? 1U + random8(99U) : 100U, 1U + random8(170U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     emitterX = 400. / HEIGHT; // а это - максимум без яркой засветки крайних рядов матрицы (сверху и снизу)
     ff_y = map(WIDTH, 8, 64, 310, 63);
     ff_z = ff_y;
@@ -5568,11 +5423,7 @@ void ballsfill_circle(float cx, float cy, float radius, CRGB col) {
 
 void spheresRoutine() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(8U) * 11U + 6U + random8(6U), 1U + random8(255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     setCurrentPalette();
     speedfactor = fmap(modes[currentMode].Speed, 1, 255, 0.15, 0.5);
 
@@ -5827,11 +5678,7 @@ void lumenjerRoutine() {
 // =====================================
 void ColorFrizzles() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random(10U, 90U), 128);
-    }
-    loadingFlag = false;
+    IsRandomMode();
     FPSdelay = 10U;
     deltaValue = 0;
   }
@@ -5865,12 +5712,7 @@ void ColorFrizzles() {
 void RadialWave() {
   static uint32_t t;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(50U, random(25U, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
     for (int8_t x = -CENTER_X_MAJOR; x < CENTER_X_MAJOR; x++) {
       for (int8_t y = -CENTER_Y_MAJOR; y < CENTER_Y_MAJOR; y++) {
@@ -5949,12 +5791,7 @@ void  FireSparks() {
   byte scale = 50;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random(0U, 99U), random(20U, 100U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     FPSdelay = DYNAMIC;
     for (byte i = 0; i < sparksCount; i++) sparks[i].reset();
   }
@@ -5991,11 +5828,7 @@ void DropInWater() {
   static byte posx[(HEIGHT + WIDTH) / 8], posy[(HEIGHT + WIDTH) / 8];
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random(0U, 100U), random(160U, 215U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     hue = modes[currentMode].Scale * 2.55;
     for (int i = 0; i < ((HEIGHT + WIDTH) / 8) - 1; i++)  {
       posx[i] = random(WIDTH - 1);
@@ -6038,12 +5871,7 @@ void FlowerRuta() {
   static uint8_t PETALS;
   static uint32_t t;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1U, 255U), random8(150U, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     PETALS = map(modes[currentMode].Scale, 1, 100, 2U, 5U);
     LOG.printf_P(PSTR("Scale: %03d | PETALS : %02d | Speed %03d\n"), modes[currentMode].Scale, PETALS, modes[currentMode].Speed);
     FastLED.clear();

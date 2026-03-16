@@ -105,11 +105,8 @@ void Wine() {
   const uint8_t DOWN_STEEP = HEIGHT / 8;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(20U + random8(100U), 200U);
-    }
+    IsRandomMode();
     FastLED.clear();
-    loadingFlag = false;
     ff_y = 0;
     pcnt = 0;
     emitterX = 0.0f;
@@ -194,12 +191,7 @@ void Swirl() {
   uint32_t color;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(50U + random8(190U), 250U);
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 255U - modes[currentMode].Speed + 1U;
     divider = constrain( (modes[currentMode].Scale - 1) / 20, 0, 5);
     deltaHue2 = 0U;                         // count для замедления смены цвета
@@ -298,12 +290,7 @@ void Ukraine() {
 
   // Initialization =========================
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), 200U + random8(50U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     drawCrest();
     // minspeed 200 maxspeed 250 ============
     // minscale   0 maxscale 100 ============
@@ -400,11 +387,7 @@ void OilPaints() {
   static uint32_t max_val;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                          scale | speed 210
-      setModeSettings(random8(100), 1 + random8(254));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
     pcnt =  modes[currentMode].Speed < 180 ? 16 : 0; /* min brightness */
     hue = 0;
@@ -585,12 +568,7 @@ void createScene(uint8_t idx) {
 void BotswanaRivers() {
   static uint8_t divider;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                          scale | speed 210
-      setModeSettings(1U + random8(252U), 20 + random8(180U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     step = 0U;
     divider = floor((modes[currentMode].Scale - 1) / 20);       // маштаб задает смену палитры воды
     createScene(divider);
@@ -623,19 +601,14 @@ void FeatherCandleRoutine() {
   static uint8_t        img[w * h];               // Buffer for rendering image
   static const uint8_t *ptr = anim;               // Current pointer into animation data
 
-  if (selectedSettings) {
-    //                       | scale | speed
-    setModeSettings(1U + random8(99U), 190U + random8(65U));
-  }
-
   if (loadingFlag) {
+    IsRandomMode();
     FastLED.clear();
     hue = 0;
     trackingObjectState[0] = low_level;
     trackingObjectState[1] = low_level;
     trackingObjectState[2] = low_level;
     trackingObjectState[4] = CENTER_X_MINOR;
-    loadingFlag = false;
   }
 
   uint8_t a = pgm_read_byte(ptr++);     // New frame X1/Y1
@@ -756,12 +729,7 @@ void Hourglass() {
   const uint8_t STEP = WIDTH / 3 * 2;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                          scale | speed 210
-      setModeSettings(10U + random8(90U), random8(255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     pcnt = 0;
     deltaHue2 = 0;
     hue2 = 0;
@@ -853,16 +821,11 @@ void Hourglass() {
 //         source code © kostyamat
 //                Spectrum
 //---------------------------------------
-void  Spectrum() {
+void Spectrum() {
   static const byte COLOR_RANGE = 32;
   static uint8_t customHue;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1, 100U), random8(215, 255U) );
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     ff_y = map(WIDTH, 8, 64, 310, 63);
     ff_z = ff_y;
     speedfactor = map(modes[currentMode].Speed, 1, 255, 32, 4); // _speed = map(speed, 1, 255, 128, 16);
@@ -1017,12 +980,7 @@ void ChristmasTree() {
   const byte posY = HEIGHT > 32 ? 2 : 0;
   static uint8_t tree_h = HEIGHT;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), 10U + random8(128));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     clearNoiseArr();
     deltaValue = 96;
     step = deltaValue;
@@ -1067,12 +1025,7 @@ void ByEffect() {
   uint8_t saturation;
   uint8_t delta;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed 210
-      setModeSettings(random8(100U), random8(200U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 0;
     step = deltaValue;
     FastLED.clear();
@@ -1136,12 +1089,7 @@ void StrobeAndDiffusion() {
   const uint8_t DELTA = 1U;         // центровка по вертикали
   uint8_t STEP = 2U;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(1U + random8(100U), 1U + random8(150U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     FPSdelay = 25U; // LOW_DELAY;
     hue2 = 1;
     clearNoiseArr();
@@ -1293,12 +1241,7 @@ void Firework() {
   uint8_t sizeH;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(1U + random8(100U), 1U + random8(250U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaHue2 = 0;
     FPSdelay = 255U;
     clearNoiseArr();
@@ -1444,12 +1387,7 @@ void PlanetEarth() {
     return;
   }
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(100U), 128U);
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     if ( modes[currentMode].Speed > 128) hue = 0;
     FPSdelay = 128U;
     FastLED.clear();
@@ -1596,12 +1534,7 @@ void WebTools() {
   static int nextX = -STEP * 2;
   static bool stop_moving = true;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                        scale | speed
-      setModeSettings(random(10U, 90U), random(10U, 245U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     FPSdelay = 1U;
     step = 0;
     STEP = 2U + floor(modes[currentMode].Scale / 35);
@@ -1675,11 +1608,7 @@ void WebTools() {
 
 void Contacts() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random(25U, 90U), random(30U, 240U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     FPSdelay = 80U;
     FastLED.clear();
   }
@@ -1734,12 +1663,7 @@ void MagicLantern() {
   const uint8_t WARM_LIGHT = 55U;
   const uint8_t STEP = 4U;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed 210
-      setModeSettings(random8(100U), random8(40, 200U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 0;
     step = deltaValue;
     if (modes[currentMode].Speed > 52) {
@@ -1803,12 +1727,7 @@ void MagicLantern() {
 void PlasmaWaves() {
   static int64_t frameCount = 0;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(40, 200U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     hue = modes[currentMode].Scale;
   }
   EVERY_N_MILLISECONDS(1000 / 60) {
@@ -1853,12 +1772,7 @@ void HandFan() {
   const uint8_t V_STEP = 255 / (HEIGHT + 9);
   static uint8_t val_scale;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(210, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     hue = modes[currentMode].Scale * 2.55;
     val_scale = map(modes[currentMode].Speed, 1, 255, 200U, 255U);;
   }
@@ -1909,12 +1823,7 @@ void Bamboo() {
   static uint8_t colLine;
   const float STP = 0.2;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(128, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     index = STP;
     uint8_t idx = map(modes[currentMode].Scale, 5, 95, 0U, 6U);;
     colLine = gamma[idx];
@@ -1977,11 +1886,7 @@ void LightFilter() {
   static byte deltaValue = 0;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(40, 160U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     divider = floor(modes[currentMode].Scale / 25);
     direct = true;
     dX = 1;
@@ -2132,11 +2037,7 @@ void NewYearsCard() {
 
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(40, 160U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
 
     divider = floor(modes[currentMode].Scale / 25);
     index = 0;
@@ -2280,11 +2181,7 @@ void NewYearsCard() {
 void TasteHoney() {
   byte index;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1U, 255U), random8(150U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     hue = modes[currentMode].Scale * 2.55;
     index = modes[currentMode].Scale / 10;
     clearNoiseArr();
@@ -2375,12 +2272,7 @@ void Spermatozoa() {
 
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(40, 60U), random8(108U, 148U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     pcnt++;
     if (pcnt > cenzor) {
       /* pcnt == 0 first loading ignore start print msg */
@@ -2477,11 +2369,7 @@ void Tornado() {
   static byte scaleXY = 4;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1U, 255U), random8(10U, 100U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     scaleXY = 2 + modes[currentMode].Scale / 10;
 
     FastLED.clear();
@@ -2553,12 +2441,7 @@ void CreativeWatch() {
   // ---------------------
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1U, 100U), 50U);
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     if (WIDTH < 10) {
       FPSdelay = HIGH_DELAY;
     } else {
@@ -2897,11 +2780,7 @@ void HeatNetworks() {
 void Spindle() {
   static bool dark;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1U, 100U), random8(100U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     hue = random8(8) * 32; // modes[currentMode].Scale;
     hue2 = 255U;
     dark = modes[currentMode].Scale < 50U;
@@ -2985,11 +2864,7 @@ void LotusFlower() {
   static uint8_t deltaSpeed = 0;
   const byte posY = HEIGHT > 32 ? 2 : 0;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(1, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     step = 0U;
     hue2 = 128U;
     deltaValue = 0;
@@ -3062,12 +2937,7 @@ void Turbulence() {
   static uint32_t count; // 16777216; = 65536
   uint32_t curColor;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(1, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     step = 0U;
     deltaValue = 0;
     hue = 0;
@@ -3143,12 +3013,7 @@ void Turbulence() {
 // =====================================
 void Python() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(1, 100U), 128U);
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 0;
 
     if (modes[currentMode].Scale < 50U) {
@@ -3187,10 +3052,7 @@ void Popuri() {
   // ---------------------
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(128, random8(4, 254U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     hue = 0;
     frameCount = 0;
     currentPalette = LavaColors_p;
@@ -3309,11 +3171,7 @@ void Serpentine() {
   // ---------------------
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(4, 50), random8(4, 254U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 0;
     hue = 0;
     FastLED.clear();
@@ -3365,12 +3223,8 @@ void Scanner() {
   static byte i;
   static bool v_scanner = HEIGHT >= WIDTH;
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(0, 100), random8(128, 255U));
-    }
+    IsRandomMode();
     deltaValue = 0;
-
-    loadingFlag = false;
     hue = modes[currentMode].Scale * 2.55;
     deltaHue = modes[currentMode].Scale;
     i = 5;
@@ -3441,11 +3295,7 @@ void Avrora() {
   // ---------------------
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(50, random8(2, 254U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 0;
     hue = 0;
     FastLED.clear();
@@ -3499,11 +3349,7 @@ void RainbowSpot() {
   float distance;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(100), random8(2, 254U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = modes[currentMode].Scale;
     hue = 96;
     emitterY = 0;
@@ -3569,11 +3415,7 @@ void Fountain() {
   byte br;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(100), random8(2, 254U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = modes[currentMode].Scale / 20;
     emitterY = 0;
     FastLED.clear();
@@ -3642,11 +3484,7 @@ void Worms() {
   const byte IDX = ((HEIGHT > WIDTH) ? CENTER_X_MINOR + STEP : HEIGHT);
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(50, 100), random8(100, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     /* init worms */
     // noise3d[NUM_LAYERSMAX][WIDTH][HEIGHT];
     for (uint8_t i = 0; i < IDX; i++) {
@@ -3762,11 +3600,7 @@ void drawFrame(double t, double x, double y) {
 // -------------------------------------
 void RainbowRings() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     deltaHue = 0;
     FPSdelay = 1;
     deltaHue2 = modes[currentMode].Scale / 22;
@@ -3830,11 +3664,7 @@ void Frost() {
   // ---------------------
 
   if (loadingFlag) {
-    //    if (selectedSettings) {
-    //      setModeSettings(random8(1, 100U), random8(2, 254U));
-    //    }
-
-    loadingFlag = false;
+    IsRandomMode();
     pcnt = 0;
     FPSdelay = 200;
     hue = random8(2, 4);
@@ -3970,9 +3800,7 @@ void DewInSun() {
   // ---------------------
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(50, random8(2, 254U));
-    }
+    IsRandomMode();
     /* MAX_BUTTERFLY */
     deltaValue = modes[currentMode].Scale / 10 + 1;
     /* reset array */
@@ -4000,7 +3828,7 @@ void DewInSun() {
       noise3d[1][i][HEIGHT - 1] = random8(CENTER_Y_MINOR, HEIGHT) + i; /* y pos*/
       Butterfly(i, 128);
     }
-    loadingFlag = false;
+
     posY = 0;
     FastLED.clear();
     /* draw Grass */
@@ -4042,10 +3870,7 @@ void Atom() {
   static float coreRadiusSq;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(1, 100U), random8(50, 254U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
     angle = 0.0;
     coreRadius = min(WIDTH, HEIGHT) * 0.35;
@@ -4130,11 +3955,7 @@ void Lilac() {
   const byte BR = 128; //45
   static const uint8_t colorLilac[4] PROGMEM = {0, 192, 216, 145 };
   if (loadingFlag) {
-    if (selectedSettings) {
-      setModeSettings(random8(100U), random8(60, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     hue = 0U;
     step = 0;
 
@@ -4209,11 +4030,7 @@ void Gradients() {
   const byte PADDING = HEIGHT > 32 ? 2 : 0;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //           scale | speed
-      setModeSettings(random8(20U, 80U), random8(10U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     step = 0;
     deltaValue = 1;
     emitterX = 45 * (modes[currentMode].Scale / 25 + 1);
@@ -4247,11 +4064,7 @@ void IntertwinedColors() {
   const byte PADDING = HEIGHT > 32 ? 2 : 0;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //           scale | speed
-      setModeSettings(50U, random8(10U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     hue2 = 0;
     FastLED.clear();
     hue = 160;
@@ -4314,11 +4127,7 @@ void FibonacciSpiral() {
   static int val;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(100U), random8(1U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     deltaValue = 1 + (modes[currentMode].Scale / 100.0f * 5);
     deltaHue2 = (128 - modes[currentMode].Speed) / 8;
     pcnt = deltaValue * 2.75;
@@ -4441,12 +4250,7 @@ void Galaxies() {
   const char* eff_name;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(100U), random8(1U, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     noise3d[1][0][0] = 6;   /* id галактики 1-6 | при старті панорама з «Землі»*/
     noise3d[1][1][0] = 0;   /* активація обертання небосхила | bool */
     noise3d[1][1][1] = 1;   /* напрям обертання | bool */
@@ -4662,11 +4466,7 @@ void Galaxies() {
 void Apron() {
   const byte PADDING = HEIGHT > 32 ? 2 : 0;
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(100U), random8(1U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     deltaHue = (modes[currentMode].Scale / 100.0f * 6.4f);
     // FastLED.clear();
   }
@@ -4720,12 +4520,8 @@ void ColorDrops() {
   static byte posx[(HEIGHT + WIDTH) / 8], posy[(HEIGHT + WIDTH) / 8];
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random(0U, 100U), random(160U, 215U));
-    }
+    IsRandomMode();
     currentPalette = PartyColors_p;
-    loadingFlag = false;
     FastLED.clear();
     hue = modes[currentMode].Scale * 2.55;
     for (int i = 0; i < ((HEIGHT + WIDTH) / 8) - 1; i++)  {

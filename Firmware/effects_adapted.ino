@@ -264,12 +264,7 @@ void processFrame(double t, double x, double y) {
 // --------------------------------------
 void TixyLand() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     deltaHue = 0;
     pcnt = map(modes[currentMode].Speed, 5, 250, 1U, 25U);
     FPSdelay = 1;
@@ -327,12 +322,7 @@ void EffectStars() {
   static uint8_t blur;
 
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(80U, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     counter = 0.0;
     // стартуем с центра
     driftx = (float)WIDTH / 2.0;
@@ -424,11 +414,7 @@ void Mirage() {
   const uint8_t divider = 4;
   const uint8_t val = 255;
   if (loadingFlag) {
-    if (selectedSettings) {
-      //                     scale | speed
-      setModeSettings(random8(100U), random8(80U, 255U));
-    }
-    loadingFlag = false;
+    IsRandomMode();
     hue = 70;
   }
 
@@ -563,12 +549,7 @@ void draw(bool setup) {
 // ==============
 void Dandelions() {
   if (loadingFlag) {
-    if (selectedSettings) {
-      // scale | speed
-      setModeSettings(random8(1U, 100U), random8(10U, 255U));
-    }
-
-    loadingFlag = false;
+    IsRandomMode();
     FastLED.clear();
     Circles::draw(true);
     deltaValue = 155 + modes[currentMode].Scale;
@@ -583,11 +564,7 @@ void Dandelions() {
 // =====================================
 //void PlasmaBall() {
 //  if (loadingFlag) {
-//    if (selectedSettings) {
-//      //           scale | speed
-//      setModeSettings(50U, random8(128U, 255U));
-//    }
-//    loadingFlag = false;
+//    IsRandomMode();
 //  }
 //
 //  fadeToBlackBy(leds, NUM_LEDS, 24);

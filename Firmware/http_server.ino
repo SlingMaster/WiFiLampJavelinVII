@@ -200,12 +200,12 @@ String runCommand(byte cmd, uint8_t val, String valStr) {
       break;
 
     case CMD_PREV_EFF:
-      selectedSettings = 0U;
+      selectedSettings = false;
       prevEffect();
       break;
 
     case CMD_NEXT_EFF:
-      selectedSettings = 0U;
+      selectedSettings = false;
       nextEffect();
       break;
     // case CMD_FAVORITES:
@@ -295,7 +295,7 @@ String runCommand(byte cmd, uint8_t val, String valStr) {
       runEffect();
       break;
     case CMD_RANDOM:
-      selectedSettings = 1;
+      selectedSettings = true;
       updateSets();
       break;
 

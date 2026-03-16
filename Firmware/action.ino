@@ -96,7 +96,7 @@ void runEffect() {
   setGlobalBrightness(modes[currentMode].Brightness, false);
   updateSets();
   if (random_on) {
-    selectedSettings = 1U;
+    selectedSettings = true;
   }
 #if (USE_MQTT)
   if (espMode == 1U) MqttManager::needToPublish = true;

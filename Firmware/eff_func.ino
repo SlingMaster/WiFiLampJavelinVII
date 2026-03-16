@@ -6,6 +6,8 @@
 #include "eff_utils.h"
 // ======================================
 
+
+// ======================================
 //аналог ардуино функции map(), но только для float
 float fmap(const float x, const float in_min, const float in_max, const float out_min, const float out_max) {
   return (out_max - out_min) * (x - in_min) / (in_max - in_min) + out_min;
@@ -17,7 +19,18 @@ void setModeSettings(uint8_t Scale = 0U, uint8_t Speed = 0U) {
   memcpy_P( &effectsSRAM, &effectsPROGMEM[currentMode], sizeof(EffData));
   modes[currentMode].Scale = Scale ? Scale : effectsSRAM.scale;
   modes[currentMode].Speed = Speed ? Speed : effectsSRAM.speed;
-  selectedSettings = 0U;
+  selectedSettings = false;
+}
+
+// ======================================
+void IsRandomMode() {
+  if (selectedSettings) {
+    EffData effectsSRAM;
+    memcpy_P( &effectsSRAM, &effectsPROGMEM[currentMode], sizeof(EffData));
+    //              scale                                           | speed    
+    setModeSettings(random(effectsSRAM.min_scl, effectsSRAM.max_scl), random(effectsSRAM.min_spd, effectsSRAM.max_spd));
+  }
+  loadingFlag = false;
 }
 
 // ======================================

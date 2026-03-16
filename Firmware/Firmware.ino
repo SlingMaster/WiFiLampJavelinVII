@@ -128,7 +128,7 @@ timerMinim timeTimer(3000);
 bool ntpServerAddressResolved = false;
 bool timeSynched = false;
 uint32_t lastTimePrinted = 0U;
-uint8_t selectedSettings = 0U;
+bool selectedSettings = false;
 
 #ifdef ESP_USE_BUTTON
 #if (BUTTON_IS_SENSORY == 1U)

@@ -1,10 +1,10 @@
 # WiFiLampJavelinVII
-
 ## Project WiFi Lamp Javelin VII & Remote Control • III
 
 Firmware для WiFi-ламп «Javelin» та «Javelin VII», сумісна зі схемою gunner47, а також кросплатформне програмне забезпечення для керування лампами.
 
 ![JavelinVII](Schemes/Icon/ico_javelinVII.png)
+
 
 **Можливості прошивки Version 7.XX (135 effects)**
 

@@ -300,7 +300,10 @@ static bool isJavelinMode() {
     currentMode = MODE_AMOUNT - 1;
   }
   if (eff_valid == 0) {
-    currentMode = 81;
+    if (currentMode != 77) {
+      currentMode = 77;
+      setDefState(true, currentMode);
+    }
   }
   return !dawnFlag;
 }

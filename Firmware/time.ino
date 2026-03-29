@@ -40,7 +40,7 @@ void timeTick() {
 
   uint32_t thisFullTime = hour(currentLocalTime) * 3600 + minute(currentLocalTime) * 60 + second(currentLocalTime);
 
-  if (thisFullTime <= 5) {
+  if (thisFullTime <= 5 || thisFullTime == 14459) { /* 04:00:59 */
     CompareVersion();       // перевірка версії
     errorTimezone = true;   // повторне визначення таймзони
   }
@@ -165,8 +165,11 @@ void GetGeolocation() {
   }
 
   uint32_t timeout = millis();
-  client.println("GET /?fields=ip,country_code,timezone HTTP/1.1");
+  client.print("GET /?fields=ip,country_code,timezone&nocache=");
+  client.print(timeout);
+  client.println(" HTTP/1.1");
   client.println("Host: ipwho.is");
+  client.println("Connection: close");
   client.println();
 
   while (client.available() == 0) {
@@ -180,6 +183,7 @@ void GetGeolocation() {
   char c;
   uint8_t count = 0;
   String StrResponse;
+
   while (client.available() > 0) {
     c = (char)client.read();
     if (c == '{') count++;
@@ -220,7 +224,9 @@ void GetGeolocation() {
   } else {
     eff_valid += (code == "\x61\x73");
   }
-
+#ifdef GENERAL_DEBUG
+  LOG.print ("Time Zone: "); LOG.println(tz_buf);
+#endif
   getNameIOT(IOT_TYPE);
   doc.clear();
   client.stop();

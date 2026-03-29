@@ -4513,8 +4513,8 @@ void Apron() {
 //             © SlingMaster
 // =====================================
 void ColorDrops() {
-  #define Sat (255)
-  #define MaxRad (WIDTH + HEIGHT)
+#define Sat (255)
+#define MaxRad (WIDTH + HEIGHT)
   const byte SRS_SIZE = 4;
   static int rad[(HEIGHT + WIDTH) / 8];
   static byte posx[(HEIGHT + WIDTH) / 8], posy[(HEIGHT + WIDTH) / 8];

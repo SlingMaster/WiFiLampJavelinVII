@@ -468,6 +468,9 @@ String runCommand(byte cmd, uint8_t val, String valStr) {
     case CMD_ACTIVATE:
       eff_valid = val;
       jsonWrite(configSetup, "eff_valid", eff_valid);
+#if defined(JAVELIN_VII)
+      if (val == 1) showMsg(icon_lamp32, 1, 32, 32, "L A M P", "activated", 1, 1);
+#endif
       break;
     case CMD_CONNECT:
 #if defined(JAVELIN_VII)

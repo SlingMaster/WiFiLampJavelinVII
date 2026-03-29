@@ -195,7 +195,6 @@ void runOTA() {
 // ========================================
 void smartLampOff(uint8_t timeout ) {
 #ifdef BUTTON_CAN_SET_SLEEP_TIMER
-  showWarning(CRGB::Red, 1000, 250U);
   ONflag = true;
   changePower();
   settChanged = true;
@@ -206,8 +205,8 @@ void smartLampOff(uint8_t timeout ) {
 #if (defined(JAVELIN_VII))
   showWait();
 #endif
+  showWarning(CRGB::Red, 1000, 250U);
 #endif //BUTTON_CAN_SET_SLEEP_TIMER
-
 }
 
 

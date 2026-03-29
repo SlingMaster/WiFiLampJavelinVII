@@ -27,7 +27,7 @@ void IsRandomMode() {
   if (selectedSettings) {
     EffData effectsSRAM;
     memcpy_P( &effectsSRAM, &effectsPROGMEM[currentMode], sizeof(EffData));
-    //              scale                                           | speed    
+    //              scale                                           | speed
     setModeSettings(random(effectsSRAM.min_scl, effectsSRAM.max_scl), random(effectsSRAM.min_spd, effectsSRAM.max_spd));
   }
   loadingFlag = false;
@@ -42,10 +42,12 @@ void clearNoiseArr() {
     }
   }
 }
-/* залить все */
+
+// ======================================
 void fillAll(CRGB color) {
-  for (int16_t i = 0; i < NUM_LEDS; i++)
+  for (int16_t i = 0; i < NUM_LEDS; i++) {
     leds[i] = color;
+  }
 }
 
 // =====================================
